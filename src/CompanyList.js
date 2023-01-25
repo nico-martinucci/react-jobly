@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CompanyCard from "./CompanyCard";
 import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
+import { Stack } from "@mui/material";
 
 /**
  * Return a list of CompanyCard components. Can return all or some.
@@ -35,13 +36,13 @@ function CompanyList() {
     //TODO: add a component for loading spinner
     if (companies.isLoading) return <p>Loading...</p>;
     return (
-        <>
+        <Stack spacing={2}>
             <h2>Company List</h2>
             <SearchForm filter={filter} />
             {companies.data.map(company => (
                 <CompanyCard key={company.handle} company={company} />
             ))}
-        </>
+        </Stack>
 
 
     );

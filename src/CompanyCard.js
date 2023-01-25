@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Card, CardContent } from '@mui/material';
 
 /**
  * Renders a single card with details passed down from CompanyList
@@ -10,13 +11,17 @@ import { Link } from "react-router-dom";
 function CompanyCard({ company }) {
 
     return (
-        <Link to={`/companies/${company.handle}`} >
-            <div>
-                <p>{company.name}</p>
-                <p>{company.description}</p>
-            </div>
-            <img src={company.logoUrl} alt={`logo for ${company.name}`} />
-        </Link >
+        <Card variant="outlined">
+            <CardContent>
+                <Link to={`/companies/${company.handle}`} >
+                    <div>
+                        <p>{company.name}</p>
+                        <p>{company.description}</p>
+                    </div>
+                    <img src={company.logoUrl} alt={`logo for ${company.name}`} />
+                </Link >
+            </CardContent>
+        </Card>
     );
 }
 

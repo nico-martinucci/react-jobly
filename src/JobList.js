@@ -16,29 +16,18 @@ function JobList() {
     const [jobs, setJobs] = useState({
         data: null,
         isLoading: true,
-        title: null
     });
     console.log("jobs, ", jobs);
 
     useEffect(function getJobs() {
-        async function getJobsReally() {
-            const response = await JoblyApi.getJobs(jobs.title);
-            setJobs({
-                data: response,
-                isLoading: false,
-                title: null
-            });
-        }
-        if (jobs.isLoading) { 
-            getJobsReally(); 
-        }
-    }, [jobs]);
+        filter();
+    }, []);
 
-    function filter(title) {
+    async function filter(title) {
+        const response = await JoblyApi.getJobs(title);
         setJobs({
-            data: null,
-            isLoading: true,
-            title
+            data: response,
+            isLoading: false,
         });
     }
 
@@ -48,7 +37,7 @@ function JobList() {
         <>
             <h2>Job List</h2>
             <SearchForm filter={filter} />
-            <JobCardList jobs={jobs}/>
+            <JobCardList jobs={jobs.data} />
         </>
 
 

@@ -16,32 +16,23 @@ function CompanyList() {
     const [companies, setCompanies] = useState({
         data: null,
         isLoading: true,
-        nameLike: null
     });
-    console.log("companies, ", companies);
 
     useEffect(function getCompanies() {
-        async function getCompaniesReally() {
-            const response = await JoblyApi.getCompanies(companies.nameLike);
-            setCompanies({
-                data: response,
-                isLoading: false,
-                nameLike: null
-            });
-        }
-        if (companies.isLoading) { 
-            getCompaniesReally(); 
-        }
-    }, [companies]);
+        filter();
+    }, []);
 
-    function filter(nameLike) {
+    //TODO: move async intothis and then pass this through
+    async function filter(nameLike) {
+        const response = await JoblyApi.getCompanies(nameLike);
         setCompanies({
-            data: null,
-            isLoading: true,
-            nameLike
+            data: response,
+            isLoading: false,
         });
+
     }
 
+    //TODO: add a component for loading spinner
     if (companies.isLoading) return <p>Loading...</p>;
     return (
         <>

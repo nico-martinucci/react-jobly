@@ -55,7 +55,6 @@ class JoblyApi {
      */
     static async getCompany(handle) {
         let res = await this.request(`companies/${handle}`);
-
         return res.company;
     }
 
@@ -65,9 +64,9 @@ class JoblyApi {
      * @param {string} nameLike - search term to filter companies by
      * @returns array of company objects
      */
-    static async getCompanies(nameLike = "") {
-        const data = nameLike ? { nameLike } : {};
-        const res = await this.request(`companies`, data);
+    static async getCompanies(nameLike) {
+        // const data = nameLike ? { nameLike } : {};
+        const res = await this.request(`companies`, { nameLike });
 
         return res.companies;
     }
@@ -78,9 +77,8 @@ class JoblyApi {
      * @param {string} title - search term to filter jobs by
      * @returns array of job objects
      */
-    static async getJobs(title = "") {
-        const data = title ? { title } : {};
-        const res = await this.request(`jobs`, data);
+    static async getJobs(title) {
+        const res = await this.request(`jobs`, { title });
 
         return res.jobs;
     }

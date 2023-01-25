@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /**
  * Renders a single card with details passed down from CompanyList
  * 
@@ -8,10 +10,13 @@
 function CompanyCard({ company }) {
 
     return (
-        <>
-            <div>{company.name} {company.description}</div>
-            <img src={company.logoUrl} alt={`logo for ${company.name}`}/>
-        </>
+        <Link to={`/companies/${company.handle}`} >
+            <div>
+                <p>{company.name}</p>
+                <p>{company.description}</p>
+            </div>
+            <img src={company.logoUrl} alt={`logo for ${company.name}`} />
+        </Link >
     );
 }
 

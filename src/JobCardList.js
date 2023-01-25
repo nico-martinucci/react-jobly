@@ -1,4 +1,4 @@
-import JobCard from "./JobCard"
+import JobCard from "./JobCard";
 
 /**
  * JobCardList: renders a list of JobCard components, based on the provided
@@ -12,11 +12,11 @@ import JobCard from "./JobCard"
  * 
  * {JobList, CompanyDetail} -> JobCardList
  */
-function JobCardList({jobs}) {
+function JobCardList({ jobs }) {
 
     return (
-        <div className="">
-            {jobs.data.map(job => (
+        <div className="JobCardList">
+            {jobs.map(job => (
                 <JobCard key={job.id} job={job} />
             ))}
         </div>

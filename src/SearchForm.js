@@ -26,8 +26,7 @@ function SearchForm({ filter }) {
     /** Call parent function with the user's inputs */
     function handleSubmit(evt) {
         evt.preventDefault();
-        console.log(formData);
-        filter(formData.search);
+        filter(formData.search.trim());
     }
 
     return (

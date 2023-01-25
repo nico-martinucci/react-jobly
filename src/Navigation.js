@@ -27,6 +27,7 @@ const pages = ['Companies', 'Jobs'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navigation() {
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -99,7 +100,7 @@ function Navigation() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link to={`/${page.toLowerCase()}`}>
+                  <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: "none", color: "inherit" }} >
                     <Typography textAlign="center">{page}</Typography>
                   </Link>
                 </MenuItem>
@@ -127,13 +128,15 @@ function Navigation() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: "none" }}>
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
           </Box>
 

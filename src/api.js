@@ -54,15 +54,15 @@ class JoblyApi {
     }
 
     /**Get companies, filtered if param added */
-    static async getCompanies(nameLike="") {
+    static async getCompanies(nameLike = "") {
         const data = nameLike ? { nameLike } : {};
         const res = await this.request(`companies`, data);
 
         return res.companies;
     }
-    
+
     /** Get jobs, filtered if param added */
-    static async getJobs(title="") {
+    static async getJobs(title = "") {
         const data = title ? { title } : {};
         const res = await this.request(`jobs`, data);
 
@@ -71,3 +71,5 @@ class JoblyApi {
 
     // obviously, you'll add a lot here ...
 }
+
+export default JoblyApi;

@@ -18,6 +18,13 @@ class JoblyApi {
         "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
         "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
+    /**
+     * 
+     * @param {*} endpoint 
+     * @param {*} data 
+     * @param {*} method 
+     * @returns 
+     */
     static async request(endpoint, data = {}, method = "get") {
         console.debug("API Call:", endpoint, data, method);
 
@@ -38,9 +45,11 @@ class JoblyApi {
 
     // Individual API routes
 
+    //FIXME: update docstrings to be better (add return)
     /** Get details on a company by handle. */
     static async getCompany(handle) {
         let res = await this.request(`companies/${handle}`);
+
         return res.company;
     }
 
@@ -48,7 +57,7 @@ class JoblyApi {
     static async getCompanies(nameLike="") {
         const data = nameLike ? { nameLike } : {};
         const res = await this.request(`companies`, data);
-        
+
         return res.companies;
     }
     

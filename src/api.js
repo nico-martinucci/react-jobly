@@ -19,11 +19,13 @@ class JoblyApi {
         "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
     /**
+     * request: builds an API request from the provided data.
      * 
-     * @param {*} endpoint 
-     * @param {*} data 
-     * @param {*} method 
-     * @returns 
+     * @param {string} endpoint - restful endpoint to make request to
+     * @param {object} data - (opt) data to pass in request, either in body or 
+     * params (defaults to {})
+     * @param {string} method - (opt) type of request (defaults to "get")
+     * @returns data retrieved from request; error if something went wrong.
      */
     static async request(endpoint, data = {}, method = "get") {
         console.debug("API Call:", endpoint, data, method);
@@ -45,15 +47,24 @@ class JoblyApi {
 
     // Individual API routes
 
-    //FIXME: update docstrings to be better (add return)
-    /** Get details on a company by handle. */
+    /**
+     * Get details on a company by handle.
+     * 
+     * @param {string} handle - handle of the company to retrieve
+     * @returns object representing a single company
+     */
     static async getCompany(handle) {
         let res = await this.request(`companies/${handle}`);
 
         return res.company;
     }
 
-    /**Get companies, filtered if param added */
+    /**
+     * Get all companies, filtered if param added.
+     * 
+     * @param {string} nameLike - search term to filter companies by
+     * @returns array of company objects
+     */
     static async getCompanies(nameLike = "") {
         const data = nameLike ? { nameLike } : {};
         const res = await this.request(`companies`, data);
@@ -61,15 +72,18 @@ class JoblyApi {
         return res.companies;
     }
 
-    /** Get jobs, filtered if param added */
+    /**
+     * Get jobs, filtered if param added
+     * 
+     * @param {string} title - search term to filter jobs by
+     * @returns array of job objects
+     */
     static async getJobs(title = "") {
         const data = title ? { title } : {};
         const res = await this.request(`jobs`, data);
 
-        return res.companies;
+        return res.jobs;
     }
-
-    // obviously, you'll add a lot here ...
 }
 
 export default JoblyApi;

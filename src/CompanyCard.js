@@ -1,5 +1,3 @@
-
-
 /**
  * Renders a single card with details passed down from CompanyList
  * 
@@ -12,7 +10,7 @@ function CompanyCard({ company }) {
     return (
         <>
             <div>{company.name} {company.description}</div>
-            <img src={company.logoUrl} />
+            <img src={company.logoUrl} alt={`logo for ${company.name}`}/>
         </>
     );
 }

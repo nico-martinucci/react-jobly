@@ -13,14 +13,14 @@ import NotFound from "./NotFound.js"
  * State: N/A
  */
 function RoutesList() {
-    // TODO: you can use self-closing Route components
+
     return (
         <Routes>
-            <Route path="/" element={<Homepage />}></Route>
-            <Route path="/companies" element={<CompanyList />}></Route>
-            <Route path="/jobs" element={<JobList />}></Route>
-            <Route path="/companies/:handle" element={<CompanyDetail />}></Route>
-            <Route path="*" element={<NotFound />}></Route>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/companies" element={<CompanyList />} />
+            <Route path="/jobs" element={<JobList />} />
+            <Route path="/companies/:handle" element={<CompanyDetail />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }

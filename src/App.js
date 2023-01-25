@@ -5,8 +5,7 @@ import RoutesList from './RoutesList';
 import Navigation from './Navigation';
 
 /**
- * // TODO:
- * @returns 
+ * App: it's an App! Parent component for entire Jobly application.
  */
 function App() {
   return (

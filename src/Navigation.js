@@ -1,7 +1,11 @@
 import { NavLink } from "react-router-dom";
 
 /**
- * //TODO:
+ * Navigation: header navigation with link to homepage, Jobs, and Companies.
+ * 
+ * Props: N/A
+ * 
+ * State: N/A
  */
 function Navigation() {
 

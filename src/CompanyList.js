@@ -11,7 +11,6 @@ import JoblyApi from "./api";
  * RouteList -> CompanyList -> {CompanyCard, SearchForm}
  * 
  */
-
 function CompanyList() {
 
     const [companies, setCompanies] = useState({
@@ -30,8 +29,10 @@ function CompanyList() {
                 nameLike: null
             });
         }
-        getCompaniesReally();
-    }, []);
+        if (companies.isLoading) { 
+            getCompaniesReally(); 
+        }
+    }, [companies]);
 
     function filter(nameLike) {
         setCompanies({
@@ -45,10 +46,10 @@ function CompanyList() {
     return (
         <>
             <h2>Company List</h2>
+            <SearchForm filter={filter} />
             {companies.data.map(company => (
                 <CompanyCard key={company.handle} company={company} />
             ))}
-            <SearchForm filter={filter} />
         </>
 
 

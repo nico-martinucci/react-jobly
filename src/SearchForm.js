@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TextField, Button } from "@mui/material";
 
 /**
  * SearchForm: form for top of companies and jobs to filter down results.
@@ -30,15 +31,16 @@ function SearchForm({ filter }) {
     }
 
     return (
-        <div className="SearchForm">
+        <div className="SearchForm">                
             <form onSubmit={handleSubmit}>
-                <input
+                <TextField 
+                    label="Enter search term..." 
+                    variant="standard" 
                     name="search"
                     id="search"
-                    placeholder="Enter search term..."
                     onChange={handleChange}
-                ></input>
-                <button>Submit</button>
+                />
+                <Button variant="outlined" type="submit">Submit</Button>
             </form>
         </div>
     );

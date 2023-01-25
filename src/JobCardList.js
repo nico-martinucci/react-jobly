@@ -1,4 +1,5 @@
 import JobCard from "./JobCard";
+import { Stack } from "@mui/material";
 
 /**
  * JobCardList: renders a list of JobCard components, based on the provided
@@ -15,11 +16,11 @@ import JobCard from "./JobCard";
 function JobCardList({ jobs }) {
 
     return (
-        <div className="JobCardList">
+        <Stack spacing={2}>
             {jobs.map(job => (
                 <JobCard key={job.id} job={job} />
             ))}
-        </div>
+        </Stack>
     );
 }
 

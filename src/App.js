@@ -9,12 +9,12 @@ import Navigation from './Navigation';
  */
 function App() {
   return (
-    <>
+    <div className='App'>
       <BrowserRouter>
         <Navigation />
         <RoutesList />
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

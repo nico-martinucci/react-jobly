@@ -1,3 +1,5 @@
+import { Card, CardContent } from '@mui/material';
+
 /**
  * JobCard: renders an individual job card.
  * 
@@ -11,6 +13,26 @@
 function JobCard({ job }) {
 
     return (
+        <Card variant="outlined">
+            <CardContent>
+            <p><b>{job.title}</b></p>
+            <p>{job.companyName}</p>
+            <p>
+                <small>Salary: {job.salary}</small>
+            </p>
+            <p>
+                <small>Equity: {job.equity}</small>
+            </p>
+            </CardContent>
+        </Card>
+    )
+}
+
+
+export default JobCard;
+
+/*
+return (
         <div className="JobCard">
             <p><b>{job.title}</b></p>
             <p>{job.companyName}</p>
@@ -22,7 +44,4 @@ function JobCard({ job }) {
             </p>
         </div>
     )
-}
-
-
-export default JobCard;
+*/

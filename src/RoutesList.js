@@ -4,6 +4,7 @@ import CompanyList from "./CompanyList.js"
 import JobList from "./JobList.js"
 import CompanyDetail from "./CompanyDetail.js"
 import NotFound from "./NotFound.js"
+import { Container } from "@mui/system";
 
 /**
  * RoutesList: renders individual Route components
@@ -15,13 +16,15 @@ import NotFound from "./NotFound.js"
 function RoutesList() {
 
     return (
-        <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/companies" element={<CompanyList />} />
-            <Route path="/jobs" element={<JobList />} />
-            <Route path="/companies/:handle" element={<CompanyDetail />} />
-            <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Container>
+            <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/companies" element={<CompanyList />} />
+                <Route path="/jobs" element={<JobList />} />
+                <Route path="/companies/:handle" element={<CompanyDetail />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </Container>
     )
 }
 

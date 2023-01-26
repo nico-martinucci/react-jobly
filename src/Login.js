@@ -1,7 +1,13 @@
 import { TextField, Button } from "@mui/material";
 import { Stack } from "@mui/system";
-import { useState } from "react";
+import { useState, Fragment, forwardRef } from "react";
+// import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import JoblyApi from "./api";
+import MuiAlert from '@mui/material/Alert';
 
 
 const defaultInitialFormData = {
@@ -20,8 +26,10 @@ const defaultInitialFormData = {
 function Login({ login }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
+    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
+
 
     /** Update form input. */
     function handleChange(evt) {
@@ -36,13 +44,47 @@ function Login({ login }) {
     async function handleSubmit(evt) {
         evt.preventDefault();
         const loggedIn = await login(formData);
-        
-        if (loggedIn) { 
-            navigate("/") 
+
+        if (loggedIn) {
+            navigate("/");
+        } else {
+            setOpen(true);
         }
+
     }
 
     const fields = ["Username", "Password"];
+
+    /******** SNACKBAR START *******/
+
+    function handleClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const action = (
+        <>
+            <Button color="secondary" size="small" onClick={handleClose}>
+                UNDO
+            </Button>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </>
+    );
+
+    const Alert = forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+    /********* SNACKBAR END *******/
 
     return (
         <>
@@ -63,6 +105,14 @@ function Login({ login }) {
                     <Button variant="outlined" type="submit">Login!</Button>
                 </Stack>
             </form>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose} >
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    Please try again.
+                </Alert>
+            </Snackbar>
         </>
     );
 }

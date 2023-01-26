@@ -15,9 +15,11 @@ class JoblyApi {
     // We're providing a token you can use to interact with the backend API
     // DON'T MODIFY THIS TOKEN
     // TODO: determine if we actually want a default value here...
-    static token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-        "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-        "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc"; 
+    static token = "";
+
+    // static token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
+    // "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
+    // "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc"; 
 
     /**
      * request: builds an API request from the provided data.
@@ -32,7 +34,7 @@ class JoblyApi {
         console.debug("API Call:", endpoint, data, method);
 
         const url = `${BASE_URL}/${endpoint}`;
-        const headers = { 
+        const headers = {
             Authorization: `Bearer ${JoblyApi.token}`,
             "Content-Type": "application/json"
         };

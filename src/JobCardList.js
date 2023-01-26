@@ -16,7 +16,7 @@ import { Stack } from "@mui/material";
 function JobCardList({ jobs }) {
 
     return (
-        <Stack spacing={2}>
+        <Stack spacing={2} mt={2}>
             {jobs.map(job => (
                 <JobCard key={job.id} job={job} />
             ))}

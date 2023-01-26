@@ -20,9 +20,9 @@ function App() {
   //and then sets user 
 
   /** 
-   * login function makes api call to "/auth/token" to retrieve token. Makes 
-   * second call to "/users/:username" get user info using that token and 
-   * username. sets user using that information.
+   * login function makes api call to "/auth/token" to retrieve token. If call 
+   * is successful calls getUserAndJobs. If not successful, return false so that
+   * page doesn't redirect.
    */
   async function login(data) {
     const tokenReceived = await JoblyApi.loginUser(data);
@@ -36,9 +36,9 @@ function App() {
   }
 
   /** 
-   * signup function makes api call to "/auth/register" to retrieve token. Makes 
-   * second call to "/users/:username" get user info using that token and 
-   * username. sets user using that information.
+   * signup function makes api call to "/auth/register" to retrieve token. If 
+   * call is successful calls getUserAndJobs. If not successful, return false 
+   * so that page doesn't redirect. 
    */
   async function signup(data) {
     const tokenReceived = await JoblyApi.signupUser(data);
@@ -88,7 +88,7 @@ function App() {
     <div className='App'>
       <userContext.Provider value={{ user, applications }}>
         <BrowserRouter>
-          <Navigation logout={logout}/>
+          <Navigation logout={logout} />
           <RoutesList login={login} signup={signup} />
         </BrowserRouter>
       </userContext.Provider>

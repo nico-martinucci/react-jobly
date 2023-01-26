@@ -36,7 +36,6 @@ function JobList() {
 
     return (
         <>
-            <h2>Job List</h2>
             <SearchForm filter={filter} />
             <JobCardList jobs={jobs.data} />
         </>

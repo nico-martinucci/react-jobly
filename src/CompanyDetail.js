@@ -36,7 +36,7 @@ function CompanyDetail() {
     return (
         <div className="CompanyDetail">
             <h2>{company.data.name}</h2>
-            <h3>{company.data.description}</h3>
+            <h4 style={{ color: "gray" }}>{company.data.description}</h4>
             <JobCardList jobs={company.data.jobs} />
         </div>
     );

@@ -72,7 +72,7 @@ function Navigation({ logout }) {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Jobly
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -130,7 +130,7 @@ function Navigation({ logout }) {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Jobly
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -169,32 +169,32 @@ function Navigation({ logout }) {
               onClose={handleCloseUserMenu}
             >
               {user ?
-              <div className="logged-in-items">
-                <MenuItem key="profile" onClick={handleCloseUserMenu}>
-                  <Link to={`/profile`} style={{ textDecoration: "none", color: "inherit" }} >
-                    <Typography textAlign="center">Profile</Typography>
-                  </Link>
-                </MenuItem>
-                <MenuItem key="logout" onClick={() => {
-                  handleCloseUserMenu();
-                  logout()
-                  navigate("/");
-                }}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
-              </div>
-              : <div>
-                <MenuItem key="login" onClick={handleCloseUserMenu}>
-                  <Link to={`/login`} style={{ textDecoration: "none", color: "inherit" }} >
-                    <Typography textAlign="center">Login</Typography>
-                  </Link>
-                </MenuItem>
-                <MenuItem key="signup" onClick={handleCloseUserMenu}>
-                  <Link to={`/signup`} style={{ textDecoration: "none", color: "inherit" }} >
-                    <Typography textAlign="center">Signup</Typography>
-                  </Link>
-                </MenuItem>
-              </div>}
+                <div className="logged-in-items">
+                  <MenuItem key="profile" onClick={handleCloseUserMenu}>
+                    <Link to={`/profile`} style={{ textDecoration: "none", color: "inherit" }} >
+                      <Typography textAlign="center">Profile</Typography>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem key="logout" onClick={() => {
+                    handleCloseUserMenu();
+                    logout();
+                    navigate("/");
+                  }}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
+                </div>
+                : <div>
+                  <MenuItem key="login" onClick={handleCloseUserMenu}>
+                    <Link to={`/login`} style={{ textDecoration: "none", color: "inherit" }} >
+                      <Typography textAlign="center">Login</Typography>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem key="signup" onClick={handleCloseUserMenu}>
+                    <Link to={`/signup`} style={{ textDecoration: "none", color: "inherit" }} >
+                      <Typography textAlign="center">Signup</Typography>
+                    </Link>
+                  </MenuItem>
+                </div>}
             </Menu>
           </Box>
         </Toolbar>

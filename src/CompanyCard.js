@@ -11,17 +11,18 @@ import { Card, CardContent } from '@mui/material';
 function CompanyCard({ company }) {
 
     return (
-        <Card variant="outlined">
-            <CardContent>
-                <Link to={`/companies/${company.handle}`} >
+        <Link to={`/companies/${company.handle}`} style={{ textDecoration: "none", textColor: "inherit" }} >
+            <Card variant="outlined">
+                <CardContent>
                     <div>
-                        <p>{company.name}</p>
+                        <h3>{company.name}</h3>
                         <p>{company.description}</p>
                     </div>
-                    <img src={company.logoUrl} alt={`logo for ${company.name}`} />
-                </Link >
-            </CardContent>
-        </Card>
+                    {company.logoUrl && <img src={company.logoUrl}
+                        alt={`logo for ${company.name}`} />}
+                </CardContent>
+            </Card>
+        </Link >
     );
 }
 

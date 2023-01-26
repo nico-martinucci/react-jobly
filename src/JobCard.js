@@ -1,4 +1,5 @@
 import { Card, CardContent } from '@mui/material';
+import currency from "currency.js";
 
 /**
  * JobCard: renders an individual job card.
@@ -15,17 +16,17 @@ function JobCard({ job }) {
     return (
         <Card variant="outlined">
             <CardContent>
-            <p><b>{job.title}</b></p>
-            <p>{job.companyName}</p>
-            <p>
-                <small>Salary: {job.salary}</small>
-            </p>
-            <p>
-                <small>Equity: {job.equity}</small>
-            </p>
+                <p><b>{job.title}</b></p>
+                <p>{job.companyName}</p>
+                <p>
+                    <small>Salary: {currency(job.salary, { seperator: "," }).format()}</small>
+                </p>
+                {(job.equity !== "0") && <p>
+                    <small>Equity: {job.equity}</small>
+                </p>}
             </CardContent>
         </Card>
-    )
+    );
 }
 
 

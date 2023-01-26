@@ -37,8 +37,7 @@ function CompanyList() {
     if (companies.isLoading) return <p><LinearProgress /></p>;
 
     return (
-        <Stack spacing={2}>
-            <h2>Company List</h2>
+        <Stack spacing={2} mt={2}>
             <SearchForm filter={filter} />
             {companies.data.map(company => (
                 <CompanyCard key={company.handle} company={company} />

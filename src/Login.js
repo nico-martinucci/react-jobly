@@ -1,6 +1,8 @@
 import { TextField, Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 const defaultInitialFormData = {
     username: "",
@@ -18,6 +20,7 @@ const defaultInitialFormData = {
 function Login({ login }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
+    const navigate = useNavigate();
 
     /** Update form input. */
     function handleChange(evt) {
@@ -31,7 +34,14 @@ function Login({ login }) {
     /** Call parent function with the user's inputs */
     function handleSubmit(evt) {
         evt.preventDefault();
-        login(formData);
+        try {
+            login(formData);
+            navigate("/");
+        }
+        catch (err) {
+            console.log("bad username/password");
+            console.log("err stack", err);
+        }
     }
 
     const fields = ["Username", "Password"];

@@ -3,6 +3,9 @@ import Homepage from "./Homepage.js"
 import CompanyList from "./CompanyList.js"
 import JobList from "./JobList.js"
 import CompanyDetail from "./CompanyDetail.js"
+import Login from "./Login.js"
+import Signup from "./Signup.js"
+import Profile from "./Profile.js"
 import NotFound from "./NotFound.js"
 import { Container } from "@mui/system";
 
@@ -22,6 +25,9 @@ function RoutesList() {
                 <Route path="/companies" element={<CompanyList />} />
                 <Route path="/jobs" element={<JobList />} />
                 <Route path="/companies/:handle" element={<CompanyDetail />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Container>

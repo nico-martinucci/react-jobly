@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import JobCardList from "./JobCardList";
 import JoblyApi from "./api";
+import { LinearProgress } from "@mui/material";
 
 /**
  * Return a list of jobs related to a single company.
@@ -30,7 +31,7 @@ function CompanyDetail() {
         getCompanyReally();
     }, []);
 
-    if (company.isLoading) return <p>Loading...</p>;
+    if (company.isLoading) return <p><LinearProgress /></p>;
 
     return (
         <div className="CompanyDetail">

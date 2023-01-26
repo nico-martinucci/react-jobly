@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import JobCardList from "./JobCardList";
 import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
+import { LinearProgress } from "@mui/material";
 
 /**
  * Return a list of JobCard components. Can return all or some.
@@ -31,7 +32,7 @@ function JobList() {
         });
     }
 
-    if (jobs.isLoading) return <p>Loading...</p>;
+    if (jobs.isLoading) return <p><LinearProgress /></p>;
 
     return (
         <>

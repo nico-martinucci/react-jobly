@@ -1,8 +1,11 @@
 import { TextField, Button } from "@mui/material";
 import { Stack } from "@mui/system";
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import camelCase from "lodash/camelCase";
 import { useNavigate } from 'react-router-dom';
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+
 
 const defaultInitialFormData = {
     username: "",
@@ -20,9 +23,10 @@ for a post to be made creating a User
 *
 * State: formData allows the component to be controlled.
  */
-function Signup({ signup }) {
+function SignupForm({ signup }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
+    const [toast, setToast] = useState({ open: false, msg: null });
 
     const navigate = useNavigate();
 
@@ -36,16 +40,35 @@ function Signup({ signup }) {
     }
 
     /** Call parent function with the user's inputs */
-    // FIXME: same pattern, bring errors closer to the user and display here; add state
     async function handleSubmit(evt) {
         evt.preventDefault();
-        const signedUp = await signup(formData);
-        if (signedUp) { 
-            navigate("/");
+        try {
+            await signup(formData);
+        } catch (err) {
+            console.log(err);
+            setToast({ open: true, msg: err[0] });
+            return;
         }
+
+        navigate("/");
     }
 
     const fields = ["Username", "Password", "First Name", "Last Name", "Email"];
+
+    /******** SNACKBAR START *******/
+
+    function handleClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setToast({ open: false, msg: null });
+    };
+
+    const Alert = forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+    /********* SNACKBAR END *******/
 
     return (
         <>
@@ -66,10 +89,18 @@ function Signup({ signup }) {
                     <Button variant="outlined" type="submit">Signup!</Button>
                 </Stack>
             </form>
+            <Snackbar
+                open={toast.open}
+                autoHideDuration={6000}
+                onClose={handleClose} >
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {toast.msg}
+                </Alert>
+            </Snackbar>
         </>
     );
 }
 // TODO: add toast for duplicate user
 
 
-export default Signup;
+export default SignupForm;

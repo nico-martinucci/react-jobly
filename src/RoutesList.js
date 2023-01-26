@@ -16,7 +16,7 @@ import { Container } from "@mui/system";
  * 
  * State: N/A
  */
-function RoutesList() {
+function RoutesList({ login }) {
 
     return (
         <Container>
@@ -25,7 +25,7 @@ function RoutesList() {
                 <Route path="/companies" element={<CompanyList />} />
                 <Route path="/jobs" element={<JobList />} />
                 <Route path="/companies/:handle" element={<CompanyDetail />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<Login login={login} />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />

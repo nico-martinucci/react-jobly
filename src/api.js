@@ -14,9 +14,10 @@ class JoblyApi {
     // Remember, the backend needs to be authorized with a token
     // We're providing a token you can use to interact with the backend API
     // DON'T MODIFY THIS TOKEN
+    // TODO: determine if we actually want a default value here...
     static token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
         "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-        "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+        "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc"; 
 
     /**
      * request: builds an API request from the provided data.
@@ -31,7 +32,10 @@ class JoblyApi {
         console.debug("API Call:", endpoint, data, method);
 
         const url = `${BASE_URL}/${endpoint}`;
-        const headers = { Authorization: `Bearer ${JoblyApi.token}` };
+        const headers = { 
+            Authorization: `Bearer ${JoblyApi.token}`,
+            "Content-Type": "application/json"
+        };
         const params = (method === "get")
             ? data
             : {};
@@ -81,6 +85,46 @@ class JoblyApi {
         const res = await this.request(`jobs`, { title });
 
         return res.jobs;
+    }
+
+    /**
+     * Registers a new user
+     * 
+     * @param {object} newUserData - new user information, required: {username,
+     * firstName, lastName, password, email}
+     * @returns the JWT for the user
+     */
+    static async signupUser(newUserData) {
+        const res = await this.request("auth/register", newUserData, "post");
+
+        return res.token;
+    }
+
+    /**
+     * Logs in an existing user
+     * 
+     * @param {object} newUserData - new user information, required: {username,
+     * password}
+     * @returns the JWT for the user
+     */
+    static async loginUser(userData) {
+        const res = await this.request("auth/token", userData, "post");
+
+        return res.token;
+    }
+
+    /**
+     * Gets user data for the provided user
+     * 
+     * @param {string} username - user's username
+     * @param {string} token - JWT
+     * @returns object of user data
+     */
+    static async fetchUserData(username, token) {
+        this.token = token;
+        const res = await this.request(`users/${username}`);
+
+        return res.user;
     }
 }
 

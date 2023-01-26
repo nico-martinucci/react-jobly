@@ -3,8 +3,9 @@ import { BrowserRouter } from "react-router-dom";
 import './App.css';
 import RoutesList from './RoutesList';
 import Navigation from './Navigation';
-import { useState } from react;
+import { useState } from "react";
 import userContext from "./userContext";
+import JoblyApi from './api';
 
 /**
  * App: it's an App! Parent component for entire Jobly application.
@@ -16,6 +17,11 @@ function App() {
 
   //TODO: login function that is passed down that makes api call to get token 
   //and then sets user 
+  async function login(data) {
+    const token = await JoblyApi.loginUser(data);
+
+    console.log(token);
+  }
 
   //TODO: Signup function that is passed down that makes api call to get token and
   //also creates a user in database and sets user to corresponding user
@@ -33,7 +39,7 @@ function App() {
       <userContext.Provider value={user}>
         <BrowserRouter>
           <Navigation />
-          <RoutesList />
+          <RoutesList login={login}/>
         </BrowserRouter>
       </userContext.Provider>
     </div>

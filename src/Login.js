@@ -48,6 +48,7 @@ function Login({ login }) {
                             variant="standard"
                             name={f.split(" ").join("-").toLowerCase()}
                             id={f.split(" ").join("-").toLowerCase()}
+                            type={f === "Password" ? "password" : "text"}
                             onChange={handleChange}
                         />
                     ))}

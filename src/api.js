@@ -95,9 +95,18 @@ class JoblyApi {
      * @returns the JWT for the user
      */
     static async signupUser(newUserData) {
-        const res = await this.request("auth/register", newUserData, "post");
+        let res;
 
-        return res.token;
+        try {
+            res = await this.request("auth/register", newUserData, "post");
+        } catch (err) {
+            console.log("err stack", err);
+            return false;
+        }
+
+        this.token = res.token;
+
+        return true;
     }
 
     /**
@@ -108,9 +117,18 @@ class JoblyApi {
      * @returns the JWT for the user
      */
     static async loginUser(userData) {
-        const res = await this.request("auth/token", userData, "post");
+        let res;
 
-        return res.token;
+        try {
+            res = await this.request("auth/token", userData, "post");
+        } catch (err) {
+            console.log("err stack", err);
+            return false;
+        }
+
+        this.token = res.token;
+
+        return true;
     }
 
     /**
@@ -120,8 +138,7 @@ class JoblyApi {
      * @param {string} token - JWT
      * @returns object of user data
      */
-    static async fetchUserData(username, token) {
-        this.token = token;
+    static async fetchUserData(username) {
         const res = await this.request(`users/${username}`);
 
         return res.user;

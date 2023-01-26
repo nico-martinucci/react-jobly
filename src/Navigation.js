@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 /*
 <NavLink to="/">Jobly</NavLink>
 <NavLink to="/companies">Companies</NavLink>
@@ -20,16 +20,22 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useContext } from "react";
+import userContext from "./userContext";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
 const pages = ['Companies', 'Jobs'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function Navigation() {
+function Navigation({ logout }) {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const { user } = useContext(userContext);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -162,11 +168,33 @@ function Navigation() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {user ?
+              <div className="logged-in-items">
+                <MenuItem key="profile" onClick={handleCloseUserMenu}>
+                  <Link to={`/profile`} style={{ textDecoration: "none", color: "inherit" }} >
+                    <Typography textAlign="center">Profile</Typography>
+                  </Link>
                 </MenuItem>
-              ))}
+                <MenuItem key="logout" onClick={() => {
+                  handleCloseUserMenu();
+                  logout()
+                  navigate("/");
+                }}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </div>
+              : <div>
+                <MenuItem key="login" onClick={handleCloseUserMenu}>
+                  <Link to={`/login`} style={{ textDecoration: "none", color: "inherit" }} >
+                    <Typography textAlign="center">Login</Typography>
+                  </Link>
+                </MenuItem>
+                <MenuItem key="signup" onClick={handleCloseUserMenu}>
+                  <Link to={`/signup`} style={{ textDecoration: "none", color: "inherit" }} >
+                    <Typography textAlign="center">Signup</Typography>
+                  </Link>
+                </MenuItem>
+              </div>}
             </Menu>
           </Box>
         </Toolbar>
@@ -174,4 +202,6 @@ function Navigation() {
     </AppBar>
   );
 }
+
+
 export default Navigation;

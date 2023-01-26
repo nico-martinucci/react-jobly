@@ -25,10 +25,14 @@ function App() {
    * username. sets user using that information.
    */
   async function login(data) {
-    const token = await JoblyApi.loginUser(data);
-    const username = data.username;
-    getUserAndJobs(username, token);
+    const tokenReceived = await JoblyApi.loginUser(data);
 
+    if (tokenReceived) {
+      getUserAndJobs(data.username);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /** 
@@ -37,30 +41,40 @@ function App() {
    * username. sets user using that information.
    */
   async function signup(data) {
-    const token = await JoblyApi.signupUser(data);
-    const username = data.username;
-    getUserAndJobs(username, token);
+    const tokenReceived = await JoblyApi.signupUser(data);
+
+    if (tokenReceived) {
+      getUserAndJobs(data.username);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**function that takes in username and token and makes a call to the 
    * users/:username endpoint. sets user based off of response. sets 
    * applications based off of response
     */
-  async function getUserAndJobs(username, token) {
+  async function getUserAndJobs(username) {
     const { firstName, lastName, email, applications } = (await
-      JoblyApi.fetchUserData(username, token));
+      JoblyApi.fetchUserData(username));
 
     const newUser = { username, firstName, lastName, email };
 
     setUser(newUser);
     setApplications(applications);
-
   }
   console.log("state of user", user);
 
-
-  //TODO: Signup function that is passed down that makes api call to get token and
-  //also creates a user in database and sets user to corresponding user
+  /**
+   * function that sets user to null, removes JoblyApi token, effectively 
+   * logging them out from the application
+   */
+  function logout() {
+    JoblyApi.token = "";
+    setUser(null);
+    // TODO: remove token from local storage
+  }
 
   //TODO: logout function that is passed down that clears localStorage and sets user 
   //to null
@@ -74,7 +88,7 @@ function App() {
     <div className='App'>
       <userContext.Provider value={{ user, applications }}>
         <BrowserRouter>
-          <Navigation />
+          <Navigation logout={logout}/>
           <RoutesList login={login} signup={signup} />
         </BrowserRouter>
       </userContext.Provider>

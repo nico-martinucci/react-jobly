@@ -1,12 +1,14 @@
 import { TextField, Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
+import camelCase from "lodash/camelCase";
+import { useNavigate } from 'react-router-dom';
 
 const defaultInitialFormData = {
     username: "",
     password: "",
-    "first-name": "",
-    "last-name": "",
+    firstName: "",
+    lastName: "",
     email: "",
 };
 
@@ -22,6 +24,8 @@ function Signup({ signup }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
 
+    const navigate = useNavigate();
+
     /** Update form input. */
     function handleChange(evt) {
         const { name, value } = evt.target;
@@ -32,12 +36,15 @@ function Signup({ signup }) {
     }
 
     /** Call parent function with the user's inputs */
-    function handleSubmit(evt) {
+    async function handleSubmit(evt) {
         evt.preventDefault();
-        signup(formData);
+        const signedUp = await signup(formData);
+        if (signedUp) { 
+            navigate("/");
+        }
     }
 
-    const fields = ["Username", "Password", "First Name", "Last name", "Email"];
+    const fields = ["Username", "Password", "First Name", "Last Name", "Email"];
 
     return (
         <>
@@ -46,11 +53,11 @@ function Signup({ signup }) {
                 <Stack spacing={2} sx={{ width: "50%" }}>
                     {fields.map(f => (
                         <TextField
-                            key={f.split(" ").join("-").toLowerCase()}
+                            key={camelCase(f)}
                             label={f}
                             variant="standard"
-                            name={f.split(" ").join("-").toLowerCase()}
-                            id={f.split(" ").join("-").toLowerCase()}
+                            name={camelCase(f)}
+                            id={camelCase(f)}
                             type={f === "Password" ? "password" : "text"}
                             onChange={handleChange}
                         />

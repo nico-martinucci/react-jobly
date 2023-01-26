@@ -7,7 +7,7 @@ function Homepage() {
         <>
             <h1>Homepage</h1>
             {(user) ?
-                <p>Welcome Back {user.username}!</p> :
+                <p>Welcome {user.username}!</p> :
                 <p>Welcome to Jobly! Please hire me!</p>}
         </>
     );

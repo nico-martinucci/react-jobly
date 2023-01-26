@@ -20,6 +20,7 @@ const defaultInitialFormData = {
 function Login({ login }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
+
     const navigate = useNavigate();
 
     /** Update form input. */
@@ -32,15 +33,12 @@ function Login({ login }) {
     }
 
     /** Call parent function with the user's inputs */
-    function handleSubmit(evt) {
+    async function handleSubmit(evt) {
         evt.preventDefault();
-        try {
-            login(formData);
-            navigate("/");
-        }
-        catch (err) {
-            console.log("bad username/password");
-            console.log("err stack", err);
+        const loggedIn = await login(formData);
+        
+        if (loggedIn) { 
+            navigate("/") 
         }
     }
 

@@ -98,14 +98,14 @@ class JoblyApi {
      */
     static async signupUser(newUserData) {
         let res;
-
+        // FIXME: remove error handling here; move to SignUpForm
         try {
             res = await this.request("auth/register", newUserData, "post");
         } catch (err) {
             console.log("err stack", err);
             return null;
         }
-
+        //TODO: remove
         this.token = res.token;
 
         return res.token;
@@ -120,14 +120,14 @@ class JoblyApi {
      */
     static async loginUser(userData) {
         let res;
-
+        // FIXME: remove error handling here; move to LoginForm
         try {
             res = await this.request("auth/token", userData, "post");
         } catch (err) {
             console.log("err stack", err);
             return null;
         }
-
+        //TODO: remove
         this.token = res.token;
 
         return res.token;

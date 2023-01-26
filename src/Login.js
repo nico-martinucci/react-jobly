@@ -23,6 +23,7 @@ const defaultInitialFormData = {
 *
 * State: formData allows the component to be controlled.
  */
+// FIXME: update component name to "LoginForm"
 function Login({ login }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
@@ -40,6 +41,8 @@ function Login({ login }) {
         }));
     }
 
+    // FIXME: add a try/catch block, catch errors here, store in local state
+    // (do the same for other errors too)
     /** Call parent function with the user's inputs */
     async function handleSubmit(evt) {
         evt.preventDefault();

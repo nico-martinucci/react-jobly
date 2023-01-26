@@ -15,10 +15,15 @@ function App() {
   const [applications, setApplications] = useState(null);
   const [token, setToken] = useState(null);
 
-  //TODO: useEffect that checks for user in localStorage
+  //TODO: useEffect that checks for user in localStorage (listen for token)
 
   useEffect(function getUserData() {
     async function fetchUserDataFromApi() {
+
+      // FIXME: wrap all of this in try/catch - really just server errors
+
+      // FIXME: use the jwt-decode method! (there's a front-end specific library)
+      // FIXME: update the JoblyApi.token here!
       const { username } = JSON.parse(atob(token.split(".")[1]));
 
       const { firstName, lastName, email, applications } = (await
@@ -28,6 +33,8 @@ function App() {
 
       setUser(newUser);
       setApplications(applications);
+      
+      // FIXME: end try/catch
     }
 
     if (token) {
@@ -42,7 +49,7 @@ function App() {
    */
   async function login(data) {
     const newToken = await JoblyApi.loginUser(data);
-
+    // FIXME: can get rid of conditional
     if (newToken) {
       // getUserAndJobs(data.username);
       setToken(newToken);
@@ -59,7 +66,7 @@ function App() {
    */
   async function signup(data) {
     const newToken = await JoblyApi.signupUser(data);
-
+    // FIXME: can get rid of conditional
     if (newToken) {
       // getUserAndJobs(data.username);
       setToken(newToken);
@@ -89,8 +96,11 @@ function App() {
    * logging them out from the application
    */
   function logout() {
+    // TODO: revist the need for this once we have code to sync up local storage
+    // with our token state
     JoblyApi.token = "";
     setUser(null);
+    // FIXME: add reset token state here
     // TODO: remove token from local storage
   }
 

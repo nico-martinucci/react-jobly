@@ -36,6 +36,7 @@ function Signup({ signup }) {
     }
 
     /** Call parent function with the user's inputs */
+    // FIXME: same pattern, bring errors closer to the user and display here; add state
     async function handleSubmit(evt) {
         evt.preventDefault();
         const signedUp = await signup(formData);
@@ -68,6 +69,7 @@ function Signup({ signup }) {
         </>
     );
 }
+// TODO: add toast for duplicate user
 
 
 export default Signup;

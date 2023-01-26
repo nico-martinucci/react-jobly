@@ -103,12 +103,12 @@ class JoblyApi {
             res = await this.request("auth/register", newUserData, "post");
         } catch (err) {
             console.log("err stack", err);
-            return false;
+            return null;
         }
 
         this.token = res.token;
 
-        return true;
+        return res.token;
     }
 
     /**
@@ -125,12 +125,12 @@ class JoblyApi {
             res = await this.request("auth/token", userData, "post");
         } catch (err) {
             console.log("err stack", err);
-            return false;
+            return null;
         }
 
         this.token = res.token;
 
-        return true;
+        return res.token;
     }
 
     /**

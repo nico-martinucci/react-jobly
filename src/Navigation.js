@@ -1,11 +1,4 @@
 import { Navigate, NavLink } from "react-router-dom";
-/*
-<NavLink to="/">Jobly</NavLink>
-<NavLink to="/companies">Companies</NavLink>
-<NavLink to="/jobs">Jobs</NavLink>
-*/
-
-
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -23,11 +16,13 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useContext } from "react";
 import userContext from "./userContext";
 import { useNavigate } from "react-router-dom";
+import uniqueId from "lodash/uniqueId";
 
 import { Link } from "react-router-dom";
 
 const pages = ['Companies', 'Jobs'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const linkStyle = { textDecoration: "none", color: "inherit" };
 
 function Navigation({ logout }) {
 
@@ -57,11 +52,10 @@ function Navigation({ logout }) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Link to="/" style={linkStyle}>
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -74,6 +68,7 @@ function Navigation({ logout }) {
           >
             Jobly
           </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -105,8 +100,8 @@ function Navigation({ logout }) {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: "none", color: "inherit" }} >
+                <MenuItem key={uniqueId()} onClick={handleCloseNavMenu}>
+                  <Link to={`/${page.toLowerCase()}`} style={linkStyle} >
                     <Typography textAlign="center">{page}</Typography>
                   </Link>
                 </MenuItem>
@@ -114,11 +109,10 @@ function Navigation({ logout }) {
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Link to="/" style={linkStyle}>
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -132,11 +126,11 @@ function Navigation({ logout }) {
           >
             Jobly
           </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: "none" }}>
+              <Link key={uniqueId()} to={`/${page.toLowerCase()}`} style={linkStyle}>
                 <Button
-                  key={page}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
@@ -170,12 +164,12 @@ function Navigation({ logout }) {
             >
               {user ?
                 <div className="logged-in-items">
-                  <MenuItem key="profile" onClick={handleCloseUserMenu}>
-                    <Link to={`/profile`} style={{ textDecoration: "none", color: "inherit" }} >
+                  <MenuItem key={uniqueId()} onClick={handleCloseUserMenu}>
+                    <Link to={`/profile`} style={linkStyle} >
                       <Typography textAlign="center">Profile</Typography>
                     </Link>
                   </MenuItem>
-                  <MenuItem key="logout" onClick={() => {
+                  <MenuItem key={uniqueId()} onClick={() => {
                     handleCloseUserMenu();
                     logout();
                     navigate("/");
@@ -184,13 +178,13 @@ function Navigation({ logout }) {
                   </MenuItem>
                 </div>
                 : <div>
-                  <MenuItem key="login" onClick={handleCloseUserMenu}>
-                    <Link to={`/login`} style={{ textDecoration: "none", color: "inherit" }} >
+                  <MenuItem key={uniqueId()} onClick={handleCloseUserMenu}>
+                    <Link to={`/login`} style={linkStyle} >
                       <Typography textAlign="center">Login</Typography>
                     </Link>
                   </MenuItem>
-                  <MenuItem key="signup" onClick={handleCloseUserMenu}>
-                    <Link to={`/signup`} style={{ textDecoration: "none", color: "inherit" }} >
+                  <MenuItem key={uniqueId()} onClick={handleCloseUserMenu}>
+                    <Link to={`/signup`} style={linkStyle} >
                       <Typography textAlign="center">Signup</Typography>
                     </Link>
                   </MenuItem>

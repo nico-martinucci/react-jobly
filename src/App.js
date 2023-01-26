@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import './App.css';
 import RoutesList from './RoutesList';
 import Navigation from './Navigation';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import userContext from "./userContext";
 import JoblyApi from './api';
 
@@ -13,11 +13,27 @@ import JoblyApi from './api';
 function App() {
   const [user, setUser] = useState(null);
   const [applications, setApplications] = useState(null);
+  const [token, setToken] = useState(null);
 
   //TODO: useEffect that checks for user in localStorage
 
-  //TODO: login function that is passed down that makes api call to get token 
-  //and then sets user 
+  useEffect(function getUserData() {
+    async function fetchUserDataFromApi() {
+      const { username } = JSON.parse(atob(token.split(".")[1]));
+
+      const { firstName, lastName, email, applications } = (await
+        JoblyApi.fetchUserData(username));
+
+      const newUser = { username, firstName, lastName, email };
+
+      setUser(newUser);
+      setApplications(applications);
+    }
+
+    if (token) {
+      fetchUserDataFromApi();
+    }
+  }, [token])
 
   /** 
    * login function makes api call to "/auth/token" to retrieve token. If call 
@@ -25,10 +41,11 @@ function App() {
    * page doesn't redirect.
    */
   async function login(data) {
-    const tokenReceived = await JoblyApi.loginUser(data);
+    const newToken = await JoblyApi.loginUser(data);
 
-    if (tokenReceived) {
-      getUserAndJobs(data.username);
+    if (newToken) {
+      // getUserAndJobs(data.username);
+      setToken(newToken);
       return true;
     } else {
       return false;
@@ -41,10 +58,11 @@ function App() {
    * so that page doesn't redirect. 
    */
   async function signup(data) {
-    const tokenReceived = await JoblyApi.signupUser(data);
+    const newToken = await JoblyApi.signupUser(data);
 
-    if (tokenReceived) {
-      getUserAndJobs(data.username);
+    if (newToken) {
+      // getUserAndJobs(data.username);
+      setToken(newToken);
       return true;
     } else {
       return false;
@@ -55,15 +73,15 @@ function App() {
    * users/:username endpoint. sets user based off of response. sets 
    * applications based off of response
     */
-  async function getUserAndJobs(username) {
-    const { firstName, lastName, email, applications } = (await
-      JoblyApi.fetchUserData(username));
+  // async function getUserAndJobs(username) {
+  //   const { firstName, lastName, email, applications } = (await
+  //     JoblyApi.fetchUserData(username));
 
-    const newUser = { username, firstName, lastName, email };
+  //   const newUser = { username, firstName, lastName, email };
 
-    setUser(newUser);
-    setApplications(applications);
-  }
+  //   setUser(newUser);
+  //   setApplications(applications);
+  // }
   console.log("state of user", user);
 
   /**
@@ -75,9 +93,6 @@ function App() {
     setUser(null);
     // TODO: remove token from local storage
   }
-
-  //TODO: logout function that is passed down that clears localStorage and sets user 
-  //to null
 
   //TODO: register/login -> recieve a token -> effect takes the username that was 
   //submitted and the token that was provided and makes another call to the 

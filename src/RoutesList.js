@@ -19,17 +19,17 @@ import { Navigate } from "react-router-dom";
  * 
  * State: N/A
  */
-function RoutesList({ login, signup }) {
+function RoutesList({ login, signup, updateProfile }) {
 
-    const {user} = useContext(userContext);
-
+    const { user } = useContext(userContext);
+    console.log("user at top of routes list", user);
     return (
         <Container>
             <Routes>
                 <Route path="/" element={<Homepage />} />
                 <Route path="/login" element={<LoginForm login={login} />} />
                 <Route path="/signup" element={<SignupForm signup={signup} />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile" element={<Profile updateProfile={updateProfile} />} />
                 <Route path="*" element={<Navigate to="/" />} />
                 {user && <>
                     <Route path="/companies" element={<CompanyList />} />

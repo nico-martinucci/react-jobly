@@ -6,7 +6,7 @@ import Navigation from './Navigation';
 import { useState, useEffect, forwardRef } from "react";
 import userContext from "./userContext";
 import JoblyApi from './api';
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, LinearProgress } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import jwt_decode from "jwt-decode";
@@ -16,21 +16,12 @@ import jwt_decode from "jwt-decode";
  */
 function App() {
   const [user, setUser] = useState(null);
+  //TODO: update applications into user so that we have 1 state.
   const [applications, setApplications] = useState(null);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("joblyToken"));
   const [toast, setToast] = useState({ open: false, msg: null });
+  const [isLoading, setIsLoading] = useState(true);
 
-  /**effect triggered on mount. Checks localStorage for token. If token exists
-   * then setToken, triggering other useEffect
-   */
-  useEffect(function checkForLocalToken() {
-
-    const localToken = localStorage.getItem("joblyToken");
-    if (localToken) {
-      setToken(localToken);
-    }
-
-  }, []);
 
   /**
    * effect triggered on change of token state. Checks localStorage for token. 
@@ -54,15 +45,19 @@ function App() {
       } catch (err) {
 
         setToast({ open: true, msg: err[0] });
+      } finally {
+        setIsLoading(false);
       }
     }
     if (token) {
       fetchUserDataFromApi();
       localStorage.setItem("joblyToken", token);
-    } else {
-      localStorage.removeItem("joblyToken");
+    }
+    else {
+      setIsLoading(false);
     }
   }, [token]);
+
 
   /** 
    * login function makes api call to "/auth/token" to retrieve token. If call 
@@ -84,6 +79,16 @@ function App() {
     setToken(newToken);
   }
 
+  /** 
+ * updateProfile function makes api call to "/users/:username".
+ */
+  async function updateProfile(data) {
+    const { username, firstName, lastName, applications, email } = await JoblyApi.updateUser(data);
+    const newUser = { username, firstName, lastName, email };
+    setUser(newUser);
+    setApplications(applications);
+  }
+
   /**
    * function that sets user to null, removes JoblyApi token, effectively 
    * logging them out from the application
@@ -97,6 +102,7 @@ function App() {
 
   /******** SNACKBAR START *******/
 
+  /** resets the snackbar when closed*/
   function handleClose(event, reason) {
     if (reason === 'clickaway') {
       return;
@@ -110,12 +116,14 @@ function App() {
 
   /********* SNACKBAR END *******/
 
+  if (isLoading) return <p><LinearProgress /></p>;
+
   return (
     <div className='App'>
       <userContext.Provider value={{ user, applications }}>
         <BrowserRouter>
           <Navigation logout={logout} />
-          <RoutesList login={login} signup={signup} />
+          <RoutesList login={login} signup={signup} updateProfile={updateProfile} />
         </BrowserRouter>
       </userContext.Provider>
       <Snackbar
@@ -128,7 +136,7 @@ function App() {
       </Snackbar>
     </div>
   );
-}
+};
 
 export default App;
 

@@ -3,9 +3,13 @@ import { BrowserRouter } from "react-router-dom";
 import './App.css';
 import RoutesList from './RoutesList';
 import Navigation from './Navigation';
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import userContext from "./userContext";
 import JoblyApi from './api';
+import { TextField, Button } from "@mui/material";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import jwt_decode from "jwt-decode";
 
 /**
  * App: it's an App! Parent component for entire Jobly application.
@@ -14,33 +18,60 @@ function App() {
   const [user, setUser] = useState(null);
   const [applications, setApplications] = useState(null);
   const [token, setToken] = useState(null);
+  const [toast, setToast] = useState({ open: false, msg: null });
+  console.log("I'm in the head of the App");
 
   //TODO: useEffect that checks for user in localStorage (listen for token)
 
+  /**effect triggered on mount. Checks localStorage for token. If token exists
+   * then setToken, triggering other useEffect
+   */
+  useEffect(function checkForLocalToken() {
+    console.log("I'm in the localToken effect");
+
+    const localToken = localStorage.getItem("joblyToken");
+    console.log("token from the first effect", token);
+    if (localToken) {
+      setToken(localToken);
+    }
+
+  }, []);
+
+  /**
+   * effect triggered on change of token state. Checks localStorage for token. 
+   * If token exists then setToken, triggering other useEffect
+   */
   useEffect(function getUserData() {
+    console.log("I'm in the top of the getuserdata effect");
+
     async function fetchUserDataFromApi() {
 
-      // FIXME: wrap all of this in try/catch - really just server errors
+      JoblyApi.token = token;
+      const { username } = jwt_decode(token);
 
-      // FIXME: use the jwt-decode method! (there's a front-end specific library)
-      // FIXME: update the JoblyApi.token here!
-      const { username } = JSON.parse(atob(token.split(".")[1]));
+      try {
 
-      const { firstName, lastName, email, applications } = (await
-        JoblyApi.fetchUserData(username));
+        const { firstName, lastName, email, applications } = (await
+          JoblyApi.fetchUserData(username));
 
-      const newUser = { username, firstName, lastName, email };
+        const newUser = { username, firstName, lastName, email };
 
-      setUser(newUser);
-      setApplications(applications);
-      
-      // FIXME: end try/catch
+        setUser(newUser);
+        setApplications(applications);
+      } catch (err) {
+
+        setToast({ open: true, msg: err[0] });
+      }
     }
-
+    console.log("token from effect", token);
+    console.log("token from effect typeof", typeof token);
     if (token) {
       fetchUserDataFromApi();
+      localStorage.setItem("joblyToken", token);
+    } else {
+      localStorage.removeItem("joblyToken");
     }
-  }, [token])
+  }, [token]);
 
   /** 
    * login function makes api call to "/auth/token" to retrieve token. If call 
@@ -49,14 +80,7 @@ function App() {
    */
   async function login(data) {
     const newToken = await JoblyApi.loginUser(data);
-    // FIXME: can get rid of conditional
-    if (newToken) {
-      // getUserAndJobs(data.username);
-      setToken(newToken);
-      return true;
-    } else {
-      return false;
-    }
+    setToken(newToken);
   }
 
   /** 
@@ -66,30 +90,11 @@ function App() {
    */
   async function signup(data) {
     const newToken = await JoblyApi.signupUser(data);
-    // FIXME: can get rid of conditional
-    if (newToken) {
-      // getUserAndJobs(data.username);
-      setToken(newToken);
-      return true;
-    } else {
-      return false;
-    }
+    setToken(newToken);
   }
 
-  /**function that takes in username and token and makes a call to the 
-   * users/:username endpoint. sets user based off of response. sets 
-   * applications based off of response
-    */
-  // async function getUserAndJobs(username) {
-  //   const { firstName, lastName, email, applications } = (await
-  //     JoblyApi.fetchUserData(username));
 
-  //   const newUser = { username, firstName, lastName, email };
-
-  //   setUser(newUser);
-  //   setApplications(applications);
-  // }
-  console.log("state of user", user);
+  // console.log("state of user", user);
 
   /**
    * function that sets user to null, removes JoblyApi token, effectively 
@@ -100,7 +105,9 @@ function App() {
     // with our token state
     JoblyApi.token = "";
     setUser(null);
-    // FIXME: add reset token state here
+    setToken(null);
+    localStorage.removeItem('joblyToken');
+
     // TODO: remove token from local storage
   }
 
@@ -108,6 +115,21 @@ function App() {
   //submitted and the token that was provided and makes another call to the 
   // "/users/:username" endpoint. Then user is set to what is recieved, spread,
   //and token appended
+
+  /******** SNACKBAR START *******/
+
+  function handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setToast({ open: false, msg: null });
+  };
+
+  const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  /********* SNACKBAR END *******/
 
   return (
     <div className='App'>
@@ -117,6 +139,14 @@ function App() {
           <RoutesList login={login} signup={signup} />
         </BrowserRouter>
       </userContext.Provider>
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={6000}
+        onClose={handleClose} >
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {toast.msg}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

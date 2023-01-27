@@ -14,7 +14,6 @@ class JoblyApi {
     // Remember, the backend needs to be authorized with a token
     // We're providing a token you can use to interact with the backend API
     // DON'T MODIFY THIS TOKEN
-    // TODO: determine if we actually want a default value here...
     static token = "";
 
     // static token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +

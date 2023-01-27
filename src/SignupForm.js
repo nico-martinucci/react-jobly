@@ -61,7 +61,7 @@ function SignupForm({ signup }) {
         if (reason === 'clickaway') {
             return;
         }
-        setToast({ open: false, msg: null, style: null });
+        setToast(curr => ({...curr, open: false}));
     };
 
     const Alert = forwardRef(function Alert(props, ref) {

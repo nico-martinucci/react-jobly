@@ -49,7 +49,7 @@ function Profile({ updateProfile }) {
         if (reason === 'clickaway') {
             return;
         }
-        setToast({ open: false, msg: null });
+        setToast(curr => ({...curr, open: false}));
     };
 
     const Alert = forwardRef(function Alert(props, ref) {

@@ -14,13 +14,13 @@ import Grid2 from '@mui/material/Unstable_Grid2';
  * 
  * {JobList, CompanyDetail} -> JobCardList
  */
-function JobCardList({ jobs }) {
+function JobCardList({ jobs, applyToJob }) {
 
     return (
         <Grid2 container spacing={2} mt={2}>
             {jobs.map(job => (
                 <Grid2 xs={12} md={4}>
-                    <JobCard key={job.id} job={job} />
+                    <JobCard key={job.id} job={job} applyToJob={applyToJob} />
                 </Grid2>
 
             ))}

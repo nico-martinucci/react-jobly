@@ -19,7 +19,7 @@ import { Navigate } from "react-router-dom";
  * 
  * State: N/A
  */
-function RoutesList({ login, signup, updateProfile }) {
+function RoutesList({ login, signup, updateProfile, applyToJob }) {
 
     const { user } = useContext(userContext);
     console.log("user at top of routes list", user);
@@ -33,8 +33,8 @@ function RoutesList({ login, signup, updateProfile }) {
                 </>}
                 {user && <>
                     <Route path="/companies" element={<CompanyList />} />
-                    <Route path="/jobs" element={<JobList />} />
-                    <Route path="/companies/:handle" element={<CompanyDetail />} />
+                    <Route path="/jobs" element={<JobList applyToJob={applyToJob} />} />
+                    <Route path="/companies/:handle" element={<CompanyDetail applyToJob={applyToJob} />} />
                     <Route path="/profile" element={<Profile updateProfile={updateProfile} />} />
                 </>}
                 <Route path="*" element={<Navigate to="/" />} />

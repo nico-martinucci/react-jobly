@@ -12,7 +12,7 @@ import { LinearProgress } from "@mui/material";
  * RouteList -> CompanyDetail -> JobCardList
  * 
  */
-function CompanyDetail() {
+function CompanyDetail({applyToJob}) {
     const [company, setCompany] = useState({
         data: null,
         isLoading: true,
@@ -37,7 +37,7 @@ function CompanyDetail() {
         <div className="CompanyDetail">
             <h2>{company.data.name}</h2>
             <h4 style={{ color: "gray" }}>{company.data.description}</h4>
-            <JobCardList jobs={company.data.jobs} />
+            <JobCardList jobs={company.data.jobs} applyToJob={applyToJob}/>
         </div>
     );
 };

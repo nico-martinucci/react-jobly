@@ -12,7 +12,7 @@ import { LinearProgress } from "@mui/material";
  * RouteList -> JobList -> {SearchForm, JobCard}
  * 
  */
-function JobList() {
+function JobList({applyToJob}) {
 
     const [jobs, setJobs] = useState({
         data: null,
@@ -36,7 +36,7 @@ function JobList() {
     return (
         <>
             <SearchForm filter={filter} />
-            <JobCardList jobs={jobs.data} />
+            <JobCardList jobs={jobs.data} applyToJob={applyToJob} />
         </>
 
 

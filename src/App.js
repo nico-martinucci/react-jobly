@@ -102,6 +102,22 @@ function App() {
     setToken(null);
     localStorage.removeItem('joblyToken');
   }
+  
+  /**
+   * applyToJob function that sends the id of cliked-on job to the server and
+   * "applies" the current user to that job. updates user state accordingly.
+   */
+  async function applyToJob(jobId) {
+    const appliedJobId = await JoblyApi.sendApplicationRequest({
+      jobId, 
+      username: user.username
+    });
+
+    setUser(curr => ({
+      ...curr,
+      applications: [...curr.applications, appliedJobId]
+    }))
+  }
 
   /******** SNACKBAR START *******/
 
@@ -110,7 +126,7 @@ function App() {
     if (reason === 'clickaway') {
       return;
     }
-    setToast({ open: false, msg: null });
+    setToast(curr => ({...curr, open: false}));
   };
 
   const Alert = forwardRef(function Alert(props, ref) {
@@ -126,7 +142,12 @@ function App() {
       <userContext.Provider value={{ user }}>
         <BrowserRouter>
           <Navigation logout={logout} />
-          <RoutesList login={login} signup={signup} updateProfile={updateProfile} />
+          <RoutesList 
+            login={login} 
+            signup={signup} 
+            updateProfile={updateProfile} 
+            applyToJob={applyToJob}
+          />
         </BrowserRouter>
       </userContext.Provider>
       <Snackbar

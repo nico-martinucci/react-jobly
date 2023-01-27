@@ -142,6 +142,22 @@ class JoblyApi {
 
         return res.user;
     }
+
+    /**
+     * Apply the current user to the job id in data.
+     * 
+     * @param {object} data - object with username and jobId 
+     * @returns jobId applied for
+     */
+    static async sendApplicationRequest(data) {
+        const res = await this.request(
+            `users/${data.username}/jobs/${data.jobId}`, 
+            {}, 
+            "post"
+        );
+
+        return res.applied;
+    }
 }
 
 export default JoblyApi;

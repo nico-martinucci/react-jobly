@@ -8,6 +8,9 @@ import SignupForm from "./SignupForm";
 import Profile from "./Profile.js";
 import NotFound from "./NotFound.js";
 import { Container } from "@mui/system";
+import { useContext } from "react";
+import userContext from "./userContext.js";
+import { Navigate } from "react-router-dom";
 
 /**
  * RoutesList: renders individual Route components
@@ -18,18 +21,21 @@ import { Container } from "@mui/system";
  */
 function RoutesList({ login, signup }) {
 
-    //TODO: stuff here... hint: && using userContext
+    const {user} = useContext(userContext);
+
     return (
         <Container>
             <Routes>
                 <Route path="/" element={<Homepage />} />
-                <Route path="/companies" element={<CompanyList />} />
-                <Route path="/jobs" element={<JobList />} />
-                <Route path="/companies/:handle" element={<CompanyDetail />} />
                 <Route path="/login" element={<LoginForm login={login} />} />
                 <Route path="/signup" element={<SignupForm signup={signup} />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/" />} />
+                {user && <>
+                    <Route path="/companies" element={<CompanyList />} />
+                    <Route path="/jobs" element={<JobList />} />
+                    <Route path="/companies/:handle" element={<CompanyDetail />} />
+                </>}
             </Routes>
         </Container>
     );

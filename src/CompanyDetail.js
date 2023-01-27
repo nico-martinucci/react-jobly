@@ -17,7 +17,7 @@ function CompanyDetail() {
         data: null,
         isLoading: true,
     });
-    console.log("company", company);
+
     const { handle } = useParams();
 
     useEffect(function getCompany() {

@@ -18,7 +18,6 @@ function JobList() {
         data: null,
         isLoading: true,
     });
-    console.log("jobs, ", jobs);
 
     useEffect(function getJobs() {
         filter();

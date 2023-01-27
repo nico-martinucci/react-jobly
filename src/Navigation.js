@@ -17,11 +17,9 @@ import { useContext } from "react";
 import userContext from "./userContext";
 import { useNavigate } from "react-router-dom";
 import uniqueId from "lodash/uniqueId";
-
 import { Link } from "react-router-dom";
 
 const pages = ['Companies', 'Jobs'];
-
 const linkStyle = { textDecoration: "none", color: "inherit" };
 
 function Navigation({ logout }) {
@@ -99,7 +97,7 @@ function Navigation({ logout }) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {user && pages.map((page) => (
                 <MenuItem key={uniqueId()} onClick={handleCloseNavMenu}>
                   <Link to={`/${page.toLowerCase()}`} style={linkStyle} >
                     <Typography textAlign="center">{page}</Typography>
@@ -128,7 +126,7 @@ function Navigation({ logout }) {
           </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {user && pages.map((page) => (
               <Link key={uniqueId()} to={`/${page.toLowerCase()}`} style={linkStyle}>
                 <Button
                   onClick={handleCloseNavMenu}

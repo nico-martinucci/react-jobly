@@ -19,7 +19,6 @@ function App() {
   const [applications, setApplications] = useState(null);
   const [token, setToken] = useState(null);
   const [toast, setToast] = useState({ open: false, msg: null });
-  console.log("I'm in the head of the App");
 
   //TODO: useEffect that checks for user in localStorage (listen for token)
 
@@ -27,10 +26,8 @@ function App() {
    * then setToken, triggering other useEffect
    */
   useEffect(function checkForLocalToken() {
-    console.log("I'm in the localToken effect");
 
     const localToken = localStorage.getItem("joblyToken");
-    console.log("token from the first effect", token);
     if (localToken) {
       setToken(localToken);
     }
@@ -42,8 +39,6 @@ function App() {
    * If token exists then setToken, triggering other useEffect
    */
   useEffect(function getUserData() {
-    console.log("I'm in the top of the getuserdata effect");
-
     async function fetchUserDataFromApi() {
 
       JoblyApi.token = token;
@@ -63,8 +58,6 @@ function App() {
         setToast({ open: true, msg: err[0] });
       }
     }
-    console.log("token from effect", token);
-    console.log("token from effect typeof", typeof token);
     if (token) {
       fetchUserDataFromApi();
       localStorage.setItem("joblyToken", token);
@@ -94,7 +87,7 @@ function App() {
   }
 
 
-  // console.log("state of user", user);
+  console.log("state of user in APP", user);
 
   /**
    * function that sets user to null, removes JoblyApi token, effectively 

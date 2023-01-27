@@ -100,7 +100,6 @@ function SignupForm({ signup }) {
         </>
     );
 }
-// TODO: add toast for duplicate user
 
 
 export default SignupForm;

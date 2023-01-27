@@ -23,7 +23,6 @@ function CompanyList() {
         filter();
     }, []);
 
-    //TODO: move async intothis and then pass this through
     async function filter(nameLike) {
         const response = await JoblyApi.getCompanies(nameLike);
         setCompanies({
@@ -33,7 +32,6 @@ function CompanyList() {
 
     }
 
-    //TODO: add a component for loading spinner
     if (companies.isLoading) return <p><LinearProgress /></p>;
 
     return (

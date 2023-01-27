@@ -20,8 +20,6 @@ function App() {
   const [token, setToken] = useState(null);
   const [toast, setToast] = useState({ open: false, msg: null });
 
-  //TODO: useEffect that checks for user in localStorage (listen for token)
-
   /**effect triggered on mount. Checks localStorage for token. If token exists
    * then setToken, triggering other useEffect
    */
@@ -86,28 +84,16 @@ function App() {
     setToken(newToken);
   }
 
-
-  console.log("state of user in APP", user);
-
   /**
    * function that sets user to null, removes JoblyApi token, effectively 
    * logging them out from the application
    */
   function logout() {
-    // TODO: revist the need for this once we have code to sync up local storage
-    // with our token state
     JoblyApi.token = "";
     setUser(null);
     setToken(null);
     localStorage.removeItem('joblyToken');
-
-    // TODO: remove token from local storage
   }
-
-  //TODO: register/login -> recieve a token -> effect takes the username that was 
-  //submitted and the token that was provided and makes another call to the 
-  // "/users/:username" endpoint. Then user is set to what is recieved, spread,
-  //and token appended
 
   /******** SNACKBAR START *******/
 

@@ -26,7 +26,7 @@ for a post to be made creating a User
 function SignupForm({ signup }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
-    const [toast, setToast] = useState({ open: false, msg: null });
+    const [toast, setToast] = useState({ open: false, msg: null, style: null });
 
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ function SignupForm({ signup }) {
             await signup(formData);
         } catch (err) {
             console.log(err);
-            setToast({ open: true, msg: err[0] });
+            setToast({ open: true, msg: err[0], stlye:"error" });
             return;
         }
 
@@ -61,7 +61,7 @@ function SignupForm({ signup }) {
         if (reason === 'clickaway') {
             return;
         }
-        setToast({ open: false, msg: null });
+        setToast({ open: false, msg: null, style: null });
     };
 
     const Alert = forwardRef(function Alert(props, ref) {
@@ -93,7 +93,7 @@ function SignupForm({ signup }) {
                 open={toast.open}
                 autoHideDuration={6000}
                 onClose={handleClose} >
-                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity={toast.style} sx={{ width: '100%' }}>
                     {toast.msg}
                 </Alert>
             </Snackbar>

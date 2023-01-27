@@ -11,9 +11,14 @@ import userContext from "./userContext";
  * @returns 
  */
 function Profile({ updateProfile }) {
-    const user = useContext(userContext);
-    const [formData, setFormData] = useState(user);
-    const [toast, setToast] = useState({ open: false, msg: null });
+    const { user } = useContext(userContext);
+    const [formData, setFormData] = useState({
+        username: user.username, 
+        firstName: user.firstName, 
+        lastName: user.lastName, 
+        email: user.email
+    });
+    const [toast, setToast] = useState({ open: false, msg: null, style: null });
 
     /** Update form input. */
     function handleChange(evt) {
@@ -29,10 +34,10 @@ function Profile({ updateProfile }) {
         evt.preventDefault();
         try {
             await updateProfile(formData);
+            setToast({ open: true, msg: "Updated successfully!", style: "success" })
         } catch (err) {
             console.log(err);
-            setToast({ open: true, msg: err[0] });
-            return;
+            setToast({ open: true, msg: err[0], style: "error" });
         }
     }
 
@@ -68,6 +73,8 @@ function Profile({ updateProfile }) {
                             id={camelCase(f)}
                             type={"text"}
                             onChange={handleChange}
+                            value={formData[camelCase(f)]}
+                            disabled={f === "Username"}
                         />
                     ))}
                     <Button variant="outlined" type="submit">Update!</Button>
@@ -77,7 +84,7 @@ function Profile({ updateProfile }) {
                 open={toast.open}
                 autoHideDuration={6000}
                 onClose={handleClose} >
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity={toast.style} sx={{ width: '100%' }}>
                     {toast.msg}
                 </Alert>
             </Snackbar>

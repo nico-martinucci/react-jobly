@@ -126,6 +126,22 @@ class JoblyApi {
 
         return res.user;
     }
+
+    /**
+     * Patches user data, returning a new user object SANS apllications...
+     * 
+     * @param {object} userData - object with new user data 
+     * @returns object of updated user data
+     */
+    static async updateUser({ username, firstName, lastName, email }) {
+        const res = await this.request(
+            `users/${username}`,
+            {firstName, lastName, email},
+            "patch"
+        );
+
+        return res.user;
+    }
 }
 
 export default JoblyApi;

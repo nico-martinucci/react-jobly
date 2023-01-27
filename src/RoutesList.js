@@ -27,15 +27,17 @@ function RoutesList({ login, signup, updateProfile }) {
         <Container>
             <Routes>
                 <Route path="/" element={<Homepage />} />
-                <Route path="/login" element={<LoginForm login={login} />} />
-                <Route path="/signup" element={<SignupForm signup={signup} />} />
-                <Route path="/profile" element={<Profile updateProfile={updateProfile} />} />
-                <Route path="*" element={<Navigate to="/" />} />
+                {!user && <>
+                    <Route path="/login" element={<LoginForm login={login} />} />
+                    <Route path="/signup" element={<SignupForm signup={signup} />} />
+                </>}
                 {user && <>
                     <Route path="/companies" element={<CompanyList />} />
                     <Route path="/jobs" element={<JobList />} />
                     <Route path="/companies/:handle" element={<CompanyDetail />} />
+                    <Route path="/profile" element={<Profile updateProfile={updateProfile} />} />
                 </>}
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </Container>
     );

@@ -16,8 +16,6 @@ import jwt_decode from "jwt-decode";
  */
 function App() {
   const [user, setUser] = useState(null);
-  //TODO: update applications into user so that we have 1 state.
-  const [applications, setApplications] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("joblyToken"));
   const [toast, setToast] = useState({ open: false, msg: null });
   const [isLoading, setIsLoading] = useState(true);
@@ -38,10 +36,9 @@ function App() {
         const { firstName, lastName, email, applications } = (await
           JoblyApi.fetchUserData(username));
 
-        const newUser = { username, firstName, lastName, email };
+        const newUser = { username, firstName, lastName, email, applications };
 
         setUser(newUser);
-        setApplications(applications);
       } catch (err) {
 
         setToast({ open: true, msg: err[0] });
@@ -83,10 +80,16 @@ function App() {
  * updateProfile function makes api call to "/users/:username".
  */
   async function updateProfile(data) {
-    const { username, firstName, lastName, applications, email } = await JoblyApi.updateUser(data);
-    const newUser = { username, firstName, lastName, email };
-    setUser(newUser);
-    setApplications(applications);
+    const { username, firstName, lastName, email } = (await 
+      JoblyApi.updateUser(data));
+
+    setUser(curr => ({
+      username, 
+      firstName, 
+      lastName, 
+      email,
+      applications: curr.applications
+    }));
   }
 
   /**
@@ -120,7 +123,7 @@ function App() {
 
   return (
     <div className='App'>
-      <userContext.Provider value={{ user, applications }}>
+      <userContext.Provider value={{ user }}>
         <BrowserRouter>
           <Navigation logout={logout} />
           <RoutesList login={login} signup={signup} updateProfile={updateProfile} />

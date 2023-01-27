@@ -23,7 +23,7 @@ const defaultInitialFormData = {
 function LoginForm({ login }) {
 
     const [formData, setFormData] = useState(defaultInitialFormData);
-    const [toast, setToast] = useState({open: false, msg: null});
+    const [toast, setToast] = useState({ open: false, msg: null, style: null });
 
     const navigate = useNavigate();
 
@@ -42,20 +42,14 @@ function LoginForm({ login }) {
         evt.preventDefault();
         try {
             await login(formData);
+            setToast({ open: true, msg: "Logged in!", style: "success" });
         } catch (err) {
             console.log(err);
-            setToast({open: true, msg: err[0]});
+            setToast({ open: true, msg: err[0], style: "error" });
             return;
         }
 
         navigate("/");
-
-        // if (loggedIn) {
-        //     navigate("/");
-        // } else {
-        //     setOpen(true);
-        // }
-
     }
 
     const fields = ["Username", "Password"];
@@ -66,7 +60,7 @@ function LoginForm({ login }) {
         if (reason === 'clickaway') {
             return;
         }
-        setToast({open: false, msg: null});
+        setToast({ open: false, msg: null, style: null });
     };
 
     const Alert = forwardRef(function Alert(props, ref) {
@@ -98,7 +92,7 @@ function LoginForm({ login }) {
                 open={toast.open}
                 autoHideDuration={6000}
                 onClose={handleClose} >
-                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity={toast.style} sx={{ width: '100%' }}>
                     {toast.msg}
                 </Alert>
             </Snackbar>

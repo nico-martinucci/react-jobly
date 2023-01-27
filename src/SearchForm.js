@@ -31,11 +31,11 @@ function SearchForm({ filter }) {
     }
 
     return (
-        <div className="SearchForm">                
+        <div className="SearchForm">
             <form onSubmit={handleSubmit}>
-                <TextField 
-                    label="Enter search term..." 
-                    variant="standard" 
+                <TextField
+                    label="Enter search term..."
+                    variant="standard"
                     name="search"
                     id="search"
                     onChange={handleChange}

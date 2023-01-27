@@ -1,5 +1,6 @@
 import JobCard from "./JobCard";
 import { Stack } from "@mui/material";
+import Grid2 from '@mui/material/Unstable_Grid2';
 
 /**
  * JobCardList: renders a list of JobCard components, based on the provided
@@ -16,13 +17,16 @@ import { Stack } from "@mui/material";
 function JobCardList({ jobs }) {
 
     return (
-        <Stack spacing={2} mt={2}>
+        <Grid2 container spacing={2} mt={2}>
             {jobs.map(job => (
-                <JobCard key={job.id} job={job} />
+                <Grid2 xs={12} md={4}>
+                    <JobCard key={job.id} job={job} />
+                </Grid2>
+
             ))}
-        </Stack>
+        </Grid2>
     );
-}
+};
 
 
 export default JobCardList;

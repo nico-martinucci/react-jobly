@@ -4,6 +4,7 @@ import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
 import { Stack, LinearProgress } from "@mui/material";
 
+
 /**
  * Return a list of CompanyCard components. Can return all or some.
  * 

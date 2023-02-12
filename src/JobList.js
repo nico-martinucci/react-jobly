@@ -35,7 +35,7 @@ function JobList({applyToJob}) {
 
     return (
         <>
-            <SearchForm filter={filter} />
+            <SearchForm filter={filter} mt={2}/>
             <JobCardList jobs={jobs.data} applyToJob={applyToJob} />
         </>
 

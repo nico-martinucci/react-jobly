@@ -28,5 +28,8 @@ $ npm start
 ```
 
 ## Tech
+- React.js, Axios, Material UI
 
 ## // TODO
+- Add more robust 
+- Write tests
